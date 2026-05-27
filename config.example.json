@@ -1,0 +1,14 @@
+{
+  "ollama_url": "http://localhost:11434",
+  "model": "",
+  "temperature": 0.7,
+  "context_length": 8192,
+  "max_messages": 40,
+  "auto_approve": {
+    "read_file": true,
+    "list_dir": true,
+    "find_files": true,
+    "fetch_url": true,
+    "web_search": true
+  }
+}

@@ -1,0 +1,40 @@
+# Build artifacts
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Local configuration
+config.json
+*.local
+
+# Cache and temp files
+.cache/
+tmp/
+*.tmp
+*.temp
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Go modules
+go.sum
+vendor/
+
+# Session files (if any)
+sessions/
+
+# User-specific files
+*.log
+
+# Documentation files - keep these in version control
+!CLAUDE.md
