@@ -11,6 +11,7 @@ type Message struct {
 	Thinking  string     `json:"thinking,omitempty"`
 	ToolCalls []ToolCall `json:"tool_calls,omitempty"`
 	ToolName  string     `json:"tool_name,omitempty"`
+	Images    []string   `json:"images,omitempty"` // base64-encoded images for multimodal models
 }
 
 type ToolCall struct {

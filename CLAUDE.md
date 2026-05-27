@@ -30,9 +30,9 @@ internal/
   tools/filesystem.go          read_file, write_file, list_dir, find_files
   tools/shell.go               run_shell (requires approval)
   tools/web.go                 fetch_url, web_search (DDG HTML scraping)
+  tools/ocr.go                 read_image (OCR via Ollama multimodal models)
   config/config.go             JSON config from $XDG_CONFIG_HOME/cli-agent/config.json
   history/history.go           Session save/load/list/update/rename/delete (persistence)
-  config/config.go             JSON config from $XDG_CONFIG_HOME/cli-agent/config.json
   tui/app.go                   BubbleTea model: state machine, streaming, slash commands, autocomplete
   tui/messages.go              tea.Msg types for the event loop
   tui/styles.go                Lipgloss style definitions
@@ -102,6 +102,7 @@ type Tool interface {
 | run_shell | yes | Execute shell commands (30s timeout) |
 | fetch_url | no | Fetch URL, strip HTML to text (1MB limit) |
 | web_search | no | DDG HTML scraping for search results |
+| read_image | no | OCR: extract text from images/PDFs via Ollama (10MB limit) |
 
 Tool results are sent back as `role: "tool"` messages with `tool_name` matching the function name (required by Ollama).
 
@@ -167,6 +168,11 @@ Sessions are stored as JSON in `~/.cache/cli-agent/sessions/<timestamp>.json`.
 - **Graceful non-tool model fallback** — models that don't support tools get a retry without tool definitions, enabling plain chat with any Ollama model.
 - **Context-aware compact warning** — token usage is tracked via Ollama's `prompt_eval_count` (no tokenizer dependency). Model context length is fetched from `/api/show` (`model_info.<family>.context_length`). Header shows `ctx:Xk/Yk`; warning appears at 80% usage.
 - **Inline history deletion** — press `d` in `/history` picker to delete sessions without leaving the list.
+- **OCR via Ollama multimodal** — `read_image` tool sends images to a dedicated OCR model (default: `glm-ocr:bf16`) through Ollama's `/api/chat` with base64-encoded images. No external OCR dependencies.
+
+### Future: Embedding-based Semantic Search
+
+Semantic search over the local codebase using Ollama embedding models (e.g., `nomic-embed-text-v2-moe`, `qwen3-embedding`) is planned. This would enable "find files related to X" beyond exact text matching. See `.claude/plans/embeddings-plan.md` for the design.
 
 ## Slash Commands
 

@@ -1103,7 +1103,7 @@ func helpText() string {
 | Ctrl+L | Clear conversation |
 | PageUp/PageDown | Scroll chat history |
 
-**Available tools:** read\_file, write\_file, list\_dir, find\_files, run\_shell, fetch\_url, web\_search`
+**Available tools:** read\_file, write\_file, list\_dir, find\_files, run\_shell, fetch\_url, web\_search, read\_image`
 }
 
 // Run starts the Bubbletea program.

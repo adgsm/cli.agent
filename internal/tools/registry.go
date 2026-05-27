@@ -44,7 +44,7 @@ func (r *Registry) Definitions() []ollama.Tool {
 }
 
 // DefaultRegistry returns a registry with all built-in tools registered.
-func DefaultRegistry() *Registry {
+func DefaultRegistry(ollamaURL string) *Registry {
 	r := NewRegistry()
 	r.Register(&ReadFileTool{})
 	r.Register(&WriteFileTool{})
@@ -53,6 +53,7 @@ func DefaultRegistry() *Registry {
 	r.Register(&RunShellTool{})
 	r.Register(&FetchURLTool{})
 	r.Register(&WebSearchTool{})
+	r.Register(&OCRTool{OllamaURL: ollamaURL, OCRModel: "glm-ocr:bf16"})
 	return r
 }
 

@@ -43,7 +43,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	registry := tools.DefaultRegistry()
+	registry := tools.DefaultRegistry(*ollamaURL)
 	ag := agent.New(client, registry, *model, nil)
 
 	if *headless {
