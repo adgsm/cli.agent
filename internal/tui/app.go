@@ -657,7 +657,7 @@ func (a *App) autoSave() {
 	}
 
 	if a.sessionID != "" {
-		if err := history.Update(a.sessionID, msgs); err != nil {
+		if err := history.Update(a.sessionID, msgs, a.ag.Model()); err != nil {
 			a.addEntry("error", fmt.Sprintf("Auto-save failed: %v", err))
 			a.refreshViewport()
 		}
@@ -694,7 +694,7 @@ func (a *App) cmdSave(parts []string) {
 				return
 			}
 		}
-		if err := history.Update(a.sessionID, msgs); err != nil {
+		if err := history.Update(a.sessionID, msgs, a.ag.Model()); err != nil {
 			a.addEntry("error", fmt.Sprintf("Save failed: %v", err))
 			a.refreshViewport()
 			return
@@ -1028,8 +1028,10 @@ func (a *App) refreshViewport() {
 		}
 		switch entry.role {
 		case "user":
-			sb.WriteString(styleUserPrefix.Render("You: "))
-			sb.WriteString(entry.content)
+			prefix := styleUserPrefix.Render("You: ")
+			wrapWidth := max(20, a.width-lipgloss.Width(prefix))
+			sb.WriteString(prefix)
+			sb.WriteString(lipgloss.NewStyle().Width(wrapWidth).Render(entry.content))
 		case "assistant":
 			sb.WriteString(styleAssistantPrefix.Render("Assistant: "))
 			rendered, err := a.renderer.Render(entry.content)

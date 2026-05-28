@@ -58,7 +58,7 @@ func Save(model string, messages []ollama.Message, name string) (string, error) 
 	return id, os.WriteFile(path, data, 0o644)
 }
 
-func Update(id string, messages []ollama.Message) error {
+func Update(id string, messages []ollama.Message, model string) error {
 	dir, err := sessionsDir()
 	if err != nil {
 		return err
@@ -76,6 +76,9 @@ func Update(id string, messages []ollama.Message) error {
 	}
 
 	s.Messages = messages
+	if model != "" {
+		s.Model = model
+	}
 	s.UpdatedAt = time.Now()
 
 	out, err := json.MarshalIndent(s, "", "  ")
